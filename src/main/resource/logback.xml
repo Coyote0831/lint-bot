@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Cache logs in the local file system for preventing the socket is not 
+		working correctly. -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>line.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- hourly rollover -->
+			<fileNamePattern>archived-logs.%d{yyyy-MM-dd_HH}.gz</fileNamePattern>
+			<!-- keep days (24 hours) worth of history -->
+			<maxHistory>24</maxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<charset>UTF-8</charset>
+			<layout class="ch.qos.logback.classic.PatternLayout">
+				<Pattern>%d{ISO8601} | %-5level | %logger{26} | %msg%n</Pattern>
+			</layout>
+		</encoder>
+	</appender>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<charset>UTF-8</charset>
+			<layout class="ch.qos.logback.classic.PatternLayout">
+				<Pattern>%d{ISO8601} | %-5level | %logger{26} | %msg%n</Pattern>
+			</layout>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+		<queueSize>500</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+	</appender>
+	
+	<logger name="com.linecorp.bot.client" level="INFO" additivity="false" />
+
+	<!-- Set the default logging level to "ALL" level for loggers which are 
+		not specified. -->
+	<root level="All">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

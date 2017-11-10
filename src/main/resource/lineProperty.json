@@ -1,0 +1,7 @@
+{
+	"channel_access_token": "",
+	"flush_duration_minute": 1,
+	"db_connection_uri": "",
+	"db_username": "",
+	"db_password": ""
+}
